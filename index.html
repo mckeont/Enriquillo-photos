@@ -70,7 +70,7 @@
       mediaArray.forEach(item => {
         const img = document.createElement("img");
           img.src  = item.url;
-        img.onclick = () => window.open(item.full, '_blank');
+       img.onclick = () => window.open(item.full || item.url, '_blank');
         img.loading = "lazy";
         img.referrerPolicy = "no-referrer";
         img.className = "grid-item";
