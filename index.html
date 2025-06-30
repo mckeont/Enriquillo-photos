@@ -68,11 +68,11 @@
       mediaArray.forEach(item => {
         const img = document.createElement("img");
         img.src = item.url;
+        img.onclick = () => window.open(item.full, '_blank');
         img.loading = "lazy";
         img.referrerPolicy = "no-referrer";
         img.className = "grid-item";
         img.onerror = () => img.style.display = 'none';
-        img.onclick = () => window.open(item.url, '_blank');
         container.appendChild(img);
       });
     }
