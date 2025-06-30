@@ -69,7 +69,7 @@
 
       mediaArray.forEach(item => {
         const img = document.createElement("img");
-        img.src = item.full; // Use full image to avoid broken thumbnails
+          img.src  = item.url;
         img.onclick = () => window.open(item.full, '_blank');
         img.loading = "lazy";
         img.referrerPolicy = "no-referrer";
