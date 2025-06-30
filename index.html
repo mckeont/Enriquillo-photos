@@ -67,7 +67,7 @@
 
       mediaArray.forEach(item => {
         const img = document.createElement("img");
-        img.src = item.url;
+        img.src = item.url || item.full;
         img.onclick = () => window.open(item.full, '_blank');
         img.loading = "lazy";
         img.referrerPolicy = "no-referrer";
