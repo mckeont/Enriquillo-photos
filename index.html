@@ -70,7 +70,6 @@
     mediaArray.forEach(item => {
       const img = document.createElement("img");
       img.src     = item.url;
-      // ← one-line fix: fall back to the thumbnail URL if full is undefined
       img.onclick = () => window.open(item.full || item.url, '_blank');
       img.loading = "lazy";
       img.referrerPolicy = "no-referrer";
