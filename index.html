@@ -53,11 +53,14 @@
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    const locations = [
-      { name: "Peñalva", coords: [17.9217, -71.2349] },
-      { name: "Enriquillo", coords: [17.9008, -71.2331] },
-      { name: "Buena Vista", coords: [17.9364, -71.2389] }
-    ];
+const locations = [
+  { name: "Peñalva", coords: [17.9217, -71.2349] },
+  { name: "Enriquillo", coords: [17.9008, -71.2331] },
+  { name: "Enriquillo Day 2", coords: [17.9018, -71.2321] },
+  { name: "Buena Vista", coords: [17.9364, -71.2389] },
+  { name: "Buena Vista Day 2", coords: [17.9354, -71.2399] }
+];
+
 
     function showImages(locationName, mediaArray) {
       const container = document.getElementById("imageGrid");
