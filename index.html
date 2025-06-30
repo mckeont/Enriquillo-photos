@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dominican Republic Field Photo Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      text-align: center;
+      background: #f5f5f5;
+    }
+    #map {
+      height: 50vh;
+      width: 100%;
+    }
+    #imageGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      padding: 20px;
+    }
+    .grid-item {
+      width: 100%;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+    .grid-item:hover {
+      transform: scale(1.05);
+    }
+    h2 {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Click on a Location to View Photos</h2>
+  <div id="map"></div>
+  <h3 id="locationTitle">Select a Location</h3>
+  <div id="imageGrid"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const apiUrl = "https://script.google.com/macros/s/AKfycbyjCCJ0bh0SQBARA7DqE6IYadO5otHPeR2LkMcoAABJWZksOXgqKiaaxJkYMJN1Nict/exec";
+
+    const map = L.map('map').setView([17.9, -71.23], 11);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const locations = [
+      { name: "Peñalva", coords: [17.9217, -71.2349] },
+      { name: "Enriquillo", coords: [17.9008, -71.2331] },
+      { name: "Buena Vista", coords: [17.9364, -71.2389] }
+    ];
+
+    function showImages(locationName, mediaArray) {
+      const container = document.getElementById("imageGrid");
+      const title = document.getElementById("locationTitle");
+      container.innerHTML = "";
+      title.innerText = `Media from ${locationName}`;
+
+      mediaArray.forEach(item => {
+        const img = document.createElement("img");
+        img.src = item.url;
+        img.className = "grid-item";
+        img.onclick = () => window.open(item.url, '_blank');
+        container.appendChild(img);
+      });
+    }
+
+    function fetchMedia(folderName) {
+      document.getElementById("locationTitle").innerText = "Loading media...";
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const media = data[folderName] || [];
+          showImages(folderName, media);
+        })
+        .catch(error => {
+          console.error("Error fetching media:", error);
+          document.getElementById("locationTitle").innerText = "Error loading media.";
+        });
+    }
+
+    locations.forEach(loc => {
+      L.marker(loc.coords).addTo(map)
+        .bindPopup(`<b>${loc.name}</b><br>Click to view media`)
+        .on("click", () => fetchMedia(loc.name));
+    });
+  </script>
+</body>
+</html>
